@@ -1,0 +1,13 @@
+dbt_snowflake_incremental:
+  outputs:
+    dev:
+      account: OTVHZFT-YZ81603
+      database: dbt_incremental_db
+      password: Password@123
+      role: TRANSFORM
+      schema: dbt_santosh
+      threads: 1
+      type: snowflake
+      user: dbt_user
+      warehouse: COMPUTE_WH
+  target: dev
