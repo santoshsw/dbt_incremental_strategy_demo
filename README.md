@@ -1,1 +1,0 @@
-# dbt_incremental_strategy_demo
