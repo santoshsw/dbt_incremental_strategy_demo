@@ -1,9 +1,9 @@
 dbt_snowflake_incremental:
   outputs:
     dev:
-      account: OTVHZFT-YZ81603
+      account: ********************
       database: dbt_incremental_db
-      password: Password@123
+      password: ********************
       role: TRANSFORM
       schema: dbt_santosh
       threads: 1
