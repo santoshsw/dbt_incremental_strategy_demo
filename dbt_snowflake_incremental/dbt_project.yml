@@ -1,16 +1,12 @@
 
-# Name your project! Project names should contain only lowercase characters
-# and underscores. A good package name should reflect your organization's
-# name or the intended use of these models
+
 name: 'dbt_snowflake_incremental'
 version: '1.0.0'
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'dbt_snowflake_incremental'
 
-# These configurations specify where dbt should look for different types of files.
-# The `model-paths` config, for example, states that models in this project can be
-# found in the "models/" directory. You probably won't need to change these!
+
 model-paths: ["models"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
@@ -29,8 +25,59 @@ clean-targets:         # directories to be removed by `dbt clean`
 # In this example config, we tell dbt to build all models in the example/
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
+
+seeds:
+  dbt_snowflake_incremental:
+    +schema: bronze
+
+    events:
+      +column_types:
+        event_timestamp: timestamp_ntz
+        event_date: date
+        amount: decimal(10,2)
+
+    customers:
+      +column_types:
+        signup_date: date
+        updated_at: timestamp_ntz
+
+    products:
+      +column_types:
+        price: decimal(10,2)
+        stock_quantity: integer
+        is_active: boolean
+        last_updated: timestamp_ntz
+
+    sales_detail:
+      +column_types:
+        sale_date: date
+        quantity: integer
+        unit_price: decimal(10,2)
+        total_amount: decimal(10,2)
+        created_at: timestamp_ntz
+        updated_at: timestamp_ntz
+
+
 models:
   dbt_snowflake_incremental:
-    # Config indicated by + and applies to all files under models/example/
-    example:
-      +materialized: view
+    +schema: silver
+    
+    01_append:
+      +materialized: incremental
+      +incremental_strategy: append
+      +tags: ['incremental', 'append']
+
+    02_merge:
+      +materialized: incremental
+      +incremental_strategy: merge
+      +tags: ['incremental', 'merge']
+    
+    03_delete_insert:
+      +materialized: incremental
+      +incremental_strategy: delete+insert
+      +tags: ['incremental', 'delete_insert']
+    
+    04_insert_overwrite:
+      +materialized: incremental
+      +incremental_strategy: delete+insert
+      +tags: ['incremental', 'insert_overwrite_alternative']
