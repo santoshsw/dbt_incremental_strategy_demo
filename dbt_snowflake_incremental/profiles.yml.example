@@ -3,8 +3,8 @@ shopflow_analytics:
   outputs:
     dev:
       type: databricks
-      host: "dbc-21212121-afa2.cloud.databricks.com"
-      http_path: "/sql/1.0/warehouses/YOUR_WAREHOUSE_ID"
+      host: "**************************************"
+      http_path: "*********************************"
       schema: silver
       catalog: workspace
       token: "dapi..."
